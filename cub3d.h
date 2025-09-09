@@ -17,5 +17,6 @@ typedef struct s_data {
 } t_data;
 
 int parsing(t_data *data);
+int get_big_line(char **map);
 
 #endif
