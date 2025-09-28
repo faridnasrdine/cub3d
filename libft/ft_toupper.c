@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 10:54:11 by nafarid           #+#    #+#             */
-/*   Updated: 2025/09/25 15:40:48 by nafarid          ###   ########.fr       */
+/*   Created: 2024/10/23 15:58:00 by nafarid           #+#    #+#             */
+/*   Updated: 2024/10/25 21:08:18 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
-# endif
+#include "libft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-#include "../libft/libft.h"
+int	ft_toupper(int c)
+{
+	if (c >= 97 && c <= 122)
+	{
+		c = c - 32;
+	}
+	return (c);
+}
+// int	main(void)
+// {
+// 	int	c;
 
-char	*get_next_line(int fd);
-char	*ft_strjoinn(char *buffer, char *line);
-int	    ft_strchrr(char *s, char c);
-#endif
+// 	c = 'j';
+// 	printf("%d", ft_toupper(c));
+// }

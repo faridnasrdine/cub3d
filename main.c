@@ -4,7 +4,7 @@
 void flag(int *f)
 {
     int i = 0;
-    while(i < 10)
+    while(i < 8)
         f[i++] = 0;
 }
 void	map_setter(t_data *data, ssize_t j, char **map)
@@ -22,23 +22,23 @@ void	map_setter(t_data *data, ssize_t j, char **map)
 	free(map);
 	data->map->map[i] = NULL;
 }
-int	rgb(char *str)
+int	parse_rgb_string(char *str)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	r = atoi(str);
+	r = ft_atoi(str);
 	while (*str && *str != ',')
 		str++;
 	if (*str == ',')
 		str++;
-	g = atoi(str);
+	g = ft_atoi(str);
 	while (*str && *str != ',')
 		str++;
 	if (*str == ',')
 		str++;
-	b = atoi(str);
+	b = ft_atoi(str);
 	if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0)
 		return (-1);
 	return (((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF));
@@ -53,27 +53,20 @@ int	texture_help(t_data *data, char *str)
 		data->map->west->file = ft_strndup(str, 3);
 	else if (ft_strncmp(str, "EA ", 3) == 0)
 		data->map->east->file = ft_strndup(str, 3);
-	else if (ft_strncmp(str, "D ", 2) == 0)
-		data->map->door->file = ft_strndup(str, 2);
-	else if (ft_strncmp(str, "D1 ", 3) == 0)
-		data->map->door_1->file = ft_strndup(str, 3);
-	else if (ft_strncmp(str, "D2 ", 3) == 0)
-		data->map->door_2->file = ft_strndup(str, 3);
-	else if (ft_strncmp(str, "D3 ", 3) == 0)
-		data->map->door_3->file = ft_strndup(str, 3);
 	else if (ft_strncmp(str, "F ", 2) == 0)
-		data->map->floor = rgb(str + 2);
+		data->map->floor = parse_rgb_string(str + 2);
 	else if (ft_strncmp(str, "C ", 2) == 0)
-		data->map->celling = rgb(str + 2);
+		data->map->celling = parse_rgb_string(str + 2);
 	else
 		return (1);
 	if (data->map->floor == -1 || data->map->celling == -1)
 		return (-1);
 	return (0);
 }
+
 int	check_attribute(char *str)
 {
-	char	*attr[11];
+	char	*attr[7];
 	ssize_t	i;
 
 	i = 0;
@@ -83,18 +76,14 @@ int	check_attribute(char *str)
 	attr[3] = "EA ";
 	attr[4] = "F ";
 	attr[5] = "C ";
-	attr[6] = "D ";
-	attr[7] = "D1 ";
-	attr[8] = "D2 ";
-	attr[9] = "D3 ";
-	attr[10] = NULL;
+	attr[6] = NULL;
 	while (attr[i])
 	{
 		if (ft_strncmp(attr[i], str, ft_strlen(attr[i])) == 0)
 			break ;
-		i++;
+		i++;    
 	}
-	if (i < 10)
+	if (i < 6)
 		return (i);
 	else
 		return (-1);
@@ -155,10 +144,13 @@ int check_char(char *ptr, char c, int len)
 int check_flag(int *flag)
 {
     int i = 0;
-    while(i < 10)
+    while(i < 6)
     {
         if(flag[i] != 1)
+        {
             return 1;
+        }
+            
         i++;
     }
     return 0;
@@ -205,6 +197,8 @@ void map_str(t_data *data, int j, char **map)
     
     while(map[i])
     {
+        if (map[i][0] == '\n')
+            map[i] = ft_strtrim(map[i], "\n");
         data->map->map[i] = ft_strdup(map[i]);
         free(map[i]);
         i++;
@@ -219,7 +213,7 @@ int get_map(t_data *data, char **av)
     char *line;
     char **map;
     int ret = 0;
-    int f[10];
+    int f[7];
     
     i = 0;
     line = ft_strdup("");
@@ -240,7 +234,7 @@ int get_map(t_data *data, char **av)
             break;
         else if(ret == 2)
             continue;
-        map[i++] = ft_strndup(line, 0);
+        map[i++] = ft_strdup(line);
         free(line);
     }
     map[i] = NULL;
@@ -306,13 +300,15 @@ int main(int ac, char **av)
             return -1;
         }
         int_fill(data, av[1]);
-        if (get_map(data, av) || parsing(data))
-        {
-            // for(int i = 0; data->map->map[i]; i++)
-            //     printf("%s\n", data->map->map[i]);
+        
+        if (get_map(data, av))
+        { 
             printf("Error\nInvalid map.\n");
-            // Don't forget to free allocated memory
+            free(data);
+            return -1;
         }
+        // exit(1);
+        set_mlx(data);
     }
     return 0;
 }

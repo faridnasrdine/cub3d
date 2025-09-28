@@ -6,23 +6,23 @@
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 18:41:56 by nafarid           #+#    #+#             */
-/*   Updated: 2024/12/19 13:18:49 by nafarid          ###   ########.fr       */
+/*   Updated: 2025/09/25 15:40:07 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(const char *s)
-{
-	int	i;
+// int	ft_strlen(const char *s)
+// {
+// 	int	i;
 
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (s && s[i])
+// 		i++;
+// 	return (i);
+// }
 
-int	ft_strchr(char *s, char c)
+int	ft_strchrr(char *s, char c)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ int	ft_strchr(char *s, char c)
 	return (-1);
 }
 
-char	*ft_strjoin(char *buffer, char *line)
+char	*ft_strjoinn(char *buffer, char *line)
 {
 	size_t	i;
 	size_t	j;

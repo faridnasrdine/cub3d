@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 10:54:11 by nafarid           #+#    #+#             */
-/*   Updated: 2025/09/25 15:40:48 by nafarid          ###   ########.fr       */
+/*   Created: 2024/10/25 17:41:49 by nafarid           #+#    #+#             */
+/*   Updated: 2024/10/25 21:14:46 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
-# endif
+#include "libft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-#include "../libft/libft.h"
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*array;
 
-char	*get_next_line(int fd);
-char	*ft_strjoinn(char *buffer, char *line);
-int	    ft_strchrr(char *s, char c);
-#endif
+	array = malloc(nmemb * size);
+	if (array == NULL)
+	{
+		return (NULL);
+	}
+	ft_bzero(array, nmemb * size);
+	return (array);
+}

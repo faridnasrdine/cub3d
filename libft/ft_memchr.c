@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 10:54:11 by nafarid           #+#    #+#             */
-/*   Updated: 2025/09/25 15:40:48 by nafarid          ###   ########.fr       */
+/*   Created: 2024/10/24 13:59:47 by nafarid           #+#    #+#             */
+/*   Updated: 2024/10/28 16:31:03 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
-# endif
+#include "libft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-#include "../libft/libft.h"
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t				i;
+	const unsigned char	*p;
 
-char	*get_next_line(int fd);
-char	*ft_strjoinn(char *buffer, char *line);
-int	    ft_strchrr(char *s, char c);
-#endif
+	p = s;
+	i = 0;
+	while (i < n)
+	{
+		if (p[i] == (unsigned char)c)
+		{
+			return ((void *)(p + i));
+		}
+		i++;
+	}
+	return (0);
+}
+// int	main(void)
+// {
+// 	char	s[] = "helloooo";
+// 	char	*result;
+
+// 	result = ft_memchr(s, 'o', 5);
+// 	printf("%s \n", result);
+// }

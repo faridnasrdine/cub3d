@@ -1,8 +1,8 @@
 #include "../cub3d.h"
 
-void update_walls(char *line, char *first_wall, char *last_wall, int line_number)
+void update_walls(char *line, char *first_wall, char *last_wall, size_t line_number)
 {
-    int i = 0;
+    size_t i = 0;
     while(i < line_number)
     {
         if(i < ft_strlen(line) && line[i])
@@ -46,15 +46,15 @@ int check_walls(char *walls)
 
 int verify_first_last_walls(char **map)
 {
-    int big_line;
+    size_t big_line;
     char *first_wall;
     char *last_wall;
     int i = 0;
     int ret;
 
     big_line = get_big_line(map);
-    first_wall = calloc(big_line + 1, sizeof(char));
-    last_wall = calloc(big_line + 1, sizeof(char));
+    first_wall = ft_calloc(big_line + 1, sizeof(char));
+    last_wall = ft_calloc(big_line + 1, sizeof(char));
     while(map[i])
         update_walls(map[i++], first_wall, last_wall, big_line);
     first_wall[big_line] = '\0';
@@ -124,7 +124,7 @@ int check_player(char **map)
         j = 0;
         while(map[i][j])
         {
-            if(strchr(player, map[i][j]))
+            if(ft_strchr(player, map[i][j]))
                 player_count++;
             j++;
         }
@@ -136,7 +136,7 @@ int check_player(char **map)
         return (1);
     return (0);
 }
-int find_spawn(t_data *data)
+int init_location_player(t_data *data)
 {
     int i;
     int j;
@@ -169,7 +169,7 @@ int find_spawn(t_data *data)
 
 int is_valid_tile(char c) 
 {
-    return (c == '0' || c == '1' || c == '2');
+    return (c == '0' || c == '1');
 }
 
 int check_next(char **map, int i, int j) {
@@ -191,7 +191,7 @@ int verify_map(char **map) {
     while (map[i]) {
         j = 0;
         while (map[i][j]) {
-            if (map[i][j] == '0' || map[i][j] == '2') {
+            if (map[i][j] == '0') {
                 if (check_next(map, i, j))
                     return 1;
             }
@@ -202,73 +202,36 @@ int verify_map(char **map) {
     return 0;
 }
 
-// Global variable to track if map has errors
-int g_map_error = 0;
+// int validate_map_closed(t_data *data)
+// {
+//     if (data->x < 0 || data->x >= data->map_length ||
+//         data->y < 0 || data->y >= data->map_height)
+//         return (1);    
+//     char player_tile = data->map->map[data->y][data->x];
+//     if (player_tile != '0' && player_tile != 'N' && player_tile != 'S' && 
+//         player_tile != 'E' && player_tile != 'W')
+//         return (1);    
+//     return (flood_fill_timed(data));
+// }
 
-void flood_fill(t_data *data, int x, int y, char **map_copy) 
-{
-    if (x < 0 || x >= data->map_length || y < 0 || y >= data->map_height)
-        return;    
-    if (map_copy[y][x] == 'S' || map_copy[y][x] == '1')
-        return;    
-    if (map_copy[y][x] == ' ' || map_copy[y][x] == '\t' || map_copy[y][x] == '\0')
-    {
-        g_map_error = 1;
-        return;
-    }
-    map_copy[y][x] = 'S';
-    flood_fill(data, x + 1, y, map_copy);
-    flood_fill(data, x - 1, y, map_copy);
-    flood_fill(data, x, y + 1, map_copy);
-    flood_fill(data, x, y - 1, map_copy);
-}
+// int check_door(char **map)
+// {
+//     int i;
+//     int j;
 
-int flood_fill_timed(t_data *data)
-{
-    int i;
-    char **map_copy;
-
-    i = 0;
-    g_map_error = 0;    
-    map_copy = malloc(sizeof(char *) * (data->map_height + 1));
-    if (!map_copy)
-        return (1);    
-    map_copy[data->map_height] = NULL;    
-    while (i < data->map_height)
-    {
-        map_copy[i] = ft_strdup(data->map->map[i]);
-        if (!map_copy[i])
-        {
-            while (--i >= 0)
-                free(map_copy[i]);
-            free(map_copy);
-            return (1);
-        }
-        i++;
-    }    
-    flood_fill(data, data->x, data->y, map_copy);    
-    int is_valid = !g_map_error;    
-    i = 0;
-    while (i < data->map_height)
-    {
-        free(map_copy[i]);
-        i++;
-    }
-    free(map_copy);    
-    return (!is_valid);
-}
-
-int validate_map_closed(t_data *data)
-{
-    if (data->x < 0 || data->x >= data->map_length ||
-        data->y < 0 || data->y >= data->map_height)
-        return (1);    
-    char player_tile = data->map->map[data->y][data->x];
-    if (player_tile != '0' && player_tile != 'N' && player_tile != 'S' && 
-        player_tile != 'E' && player_tile != 'W')
-        return (1);    
-    return (flood_fill_timed(data));
-}
+//     i = 0;
+//     while(map[i])
+//     {
+//         j = 0;
+//         while(map[i][j])
+//         {
+//             if(map[i][j] == '2')
+//             {
+//                 if(fun(map))
+//             }
+//         }
+//     }
+// }
 int parsing(t_data *data)
 {
     if(verify_first_last_walls(data->map->map))
@@ -277,11 +240,11 @@ int parsing(t_data *data)
         return (1);
     if(check_player(data->map->map))
         return (1);
-    if(find_spawn(data))
+    if(init_location_player(data))
         return (1);
     if (verify_map(data->map->map))
         return 1;
-    if (flood_fill_timed(data))
-        return 1;
+    // if (check_door(data->map->map))
+    //     return 1;
     return (0);
 }
