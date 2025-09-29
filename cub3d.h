@@ -77,6 +77,6 @@ int 	ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	parse_rgb_string(char *str);
 int 	get_height_line(char **map);
 void	set_mlx(t_data *data);
-int	exit_game(t_data *data);
+// int	exit_game(t_data *data);
 
 #endif

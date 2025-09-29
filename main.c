@@ -191,19 +191,20 @@ int get_line(char **av)
 void map_str(t_data *data, int j, char **map)
 {
     int i = 0;
+    int x = 0;
     data->map->map = malloc(sizeof(char *) * (j + 1));
     if(!data->map->map)
         return;
     
+    while (map[i][0] == '\0' || map[i][0] == '\n')
+        i++;
     while(map[i])
     {
-        if (map[i][0] == '\n')
-            map[i] = ft_strtrim(map[i], "\n");
-        data->map->map[i] = ft_strdup(map[i]);
+        data->map->map[x++] = ft_strdup(map[i]);
         free(map[i]);
         i++;
     }
-    data->map->map[i] = NULL;  
+    data->map->map[x] = NULL;  
     free(map);
 }
 
@@ -301,12 +302,16 @@ int main(int ac, char **av)
         }
         int_fill(data, av[1]);
         
-        if (get_map(data, av))
-        { 
+        if (get_map(data, av) || parsing(data))
+        {
             printf("Error\nInvalid map.\n");
             free(data);
             return -1;
         }
+        // for(int i = 0; data->map->map[i]; i++)
+        // {
+        //     printf("%s", data->map->map[i]);
+        // }
         // exit(1);
         set_mlx(data);
     }

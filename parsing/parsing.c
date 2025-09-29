@@ -67,26 +67,11 @@ int verify_first_last_walls(char **map)
     return (ret);
 }
 
-int check_last(char *map)
-{
-    int i;
-
-    i = 0;
-    while(map[i])
-        i++;
-    if(i > 0)
-        i--;
-    while(i >= 0 && (map[i] == ' '  || map[i] == '\t'))
-        i--;
-    if(i < 0 || map[i] != '1')
-        return (1);
-    return (0);
-}
-
 int verify_line(char **map)
 {
     int i;
     int j;
+    int last;
 
     i = 0;
     while(map[i])
@@ -94,13 +79,17 @@ int verify_line(char **map)
         j = 0;
         while(map[i][j] == ' ' || map[i][j] == '\t')
             j++;
-            
         if(map[i][j] == '\0')
         {
             i++;
             continue;
         }
-        if(map[i][j] != '1' || check_last(map[i]) == 1)
+        if(map[i][j] != '1')
+            return (1);
+        last = strlen(map[i]) - 1;
+        while(last >= 0 && (map[i][last] == ' ' || map[i][last] == '\t' || map[i][last] == '\n'))
+            last--;
+        if(last < 0 || map[i][last] != '1')
             return (1);
         i++;
     }
@@ -155,9 +144,8 @@ int init_location_player(t_data *data)
                 data->x = i;
                 data->y = j;
                 data->player->dir = data->map->map[i][j];
-                data->map->map[i][j] = '0';
+                // data->map->map[i][j] = '0';
                 data->map_length = get_big_line(data->map->map);
-                data->map_height = get_height_line(data->map->map);
                 return (0);
             }
             j++;
@@ -234,17 +222,18 @@ int verify_map(char **map) {
 // }
 int parsing(t_data *data)
 {
-    if(verify_first_last_walls(data->map->map))
-        return (1);
+    // if(verify_first_last_walls(data->map->map))
+    //     return (1);
     if(verify_line(data->map->map))
         return (1);
     if(check_player(data->map->map))
         return (1);
     if(init_location_player(data))
         return (1);
-    if (verify_map(data->map->map))
-        return 1;
+    // if (verify_map(data->map->map))
+    //     return 1;
     // if (check_door(data->map->map))
     //     return 1;
+    data->map_height = get_height_line(data->map->map);
     return (0);
 }

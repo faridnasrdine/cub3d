@@ -36,7 +36,7 @@ int get_big_line(char **map)
 int get_height_line(char **map)
 {
     int map_height;
-    
+
     map_height = 0;
     while (map[map_height])
         map_height++;

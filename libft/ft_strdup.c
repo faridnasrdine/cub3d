@@ -6,12 +6,11 @@
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 17:11:14 by nafarid           #+#    #+#             */
-/*   Updated: 2024/10/25 21:14:26 by nafarid          ###   ########.fr       */
+/*   Updated: 2025/09/29 11:00:09 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 char	*ft_strdup(const char *s)
 {
 	size_t	len_s;

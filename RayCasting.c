@@ -8,21 +8,21 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	draw_block(t_data *data, int start_x, int start_y, int color)
+void	draw_block(t_data *data, int x, int y, int color)
 {
-	int	x;
-	int	y;
+	int	j;
+	int	i;
 
-	y = start_y;
-	while (y < start_y + 32)
+	i = y;
+	while (i < y + 32)
 	{
-		x = start_x;
-		while (x < start_x + 32)
+		j = x;
+		while (j < x + 32)
 		{
-			my_mlx_pixel_put(data, x, y, color);
-			x++;
+			my_mlx_pixel_put(data, j, i, color);
+			j++;
 		}
-		y++;
+		i++;
 	}
 }
 
@@ -41,7 +41,6 @@ void get_draw_map(char p, int x, int y, t_data *data)
 		color = 0x808080;
 	draw_block(data, x, y, color);
 }
-
 void    get_game(t_data *data)
 {
 	int x;
@@ -49,18 +48,34 @@ void    get_game(t_data *data)
 	int i;
 	int j;
 
-	data->img = mlx_new_image(data->mlx, data->map_height * 32, data->map_length * 32);
+	if (!data || !data->map || !data->map->map)
+	{
+		printf("Error: Invalid map data\n");
+		return;
+	}
+	data->img = mlx_new_image(data->mlx, data->map_length * 32, data->map_height * 32);
 	data->addr = mlx_get_data_addr(data->img, &data->pixel, &data->len, &data->endian);
 
 	y = 0;
 	i = 0;
-	while(i < data->map_length)
+	while(i < data->map_height)
 	{
+		if (!data->map->map[i])
+		{
+			printf("Error: Row %d is NULL\n", i);
+			i++;
+			y += 32;
+			continue;
+		}
+		
 		x = 0;
 		j = 0;
-		while(j < data->map_height)
+		while(j < data->map_length)
 		{
-			get_draw_map(data->map->map[i][j], x, y, data);
+			if (data->map->map[i][j] != '\0')
+				get_draw_map(data->map->map[i][j], x, y, data);
+			else
+				draw_block(data, x, y, 0x808080);
 			j++;
 			x += 32;
 		}
@@ -73,7 +88,7 @@ void    get_game(t_data *data)
 void	set_mlx(t_data *data)
 {
 	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, 800, 800, "CUB3D 42");
-	// get_game(data);
+	data->win = mlx_new_window(data->mlx, data->map_length * 32, data->map_height * 32, "CUB3D 42");
+	get_game(data);
 	mlx_loop(data->mlx);
 }
