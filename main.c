@@ -282,7 +282,7 @@ int init_data(t_data *data)
     data->map->fd = -1;
     data->player->x = 0.0;
     data->player->y = 0.0;
-    data->player->dir = 0;
+    // data->player->dir = 0;
     
     return 0;
 }
@@ -308,11 +308,7 @@ int main(int ac, char **av)
             free(data);
             return -1;
         }
-        // for(int i = 0; data->map->map[i]; i++)
-        // {
-        //     printf("%s", data->map->map[i]);
-        // }
-        // exit(1);
+   
         set_mlx(data);
     }
     return 0;

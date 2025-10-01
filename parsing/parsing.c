@@ -139,13 +139,37 @@ int init_location_player(t_data *data)
             if(data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S' || 
                data->map->map[i][j] == 'E' || data->map->map[i][j] == 'W')
             {
-                data->player->x = j + 0.5;
-                data->player->y = i + 0.5;
-                data->x = i;
-                data->y = j;
-                data->player->dir = data->map->map[i][j];
-                // data->map->map[i][j] = '0';
+                data->player->x = (double)j + 0.5;  // Center of the cell
+                data->player->y = (double)i + 0.5;
+                data->player->orientation = data->map->map[i][j];
+                
+                // Set direction vectors based on orientation
+                if (data->map->map[i][j] == 'N')
+                {
+                    data->player->dir_x = 0;
+                    data->player->dir_y = -1;
+                }
+                else if (data->map->map[i][j] == 'S')
+                {
+                    data->player->dir_x = 0;
+                    data->player->dir_y = 1;
+                }
+                else if (data->map->map[i][j] == 'E')
+                {
+                    data->player->dir_x = 1;
+                    data->player->dir_y = 0;
+                }
+                else if (data->map->map[i][j] == 'W')
+                {
+                    data->player->dir_x = -1;
+                    data->player->dir_y = 0;
+                }
+                
+                data->player->move_speed = 0.1;
+                data->player->rot_speed = 0.05;
+                
                 data->map_length = get_big_line(data->map->map);
+                data->map_height = get_height_line(data->map->map);
                 return (0);
             }
             j++;
@@ -220,6 +244,26 @@ int verify_map(char **map) {
 //         }
 //     }
 // }
+
+
+void funn(char **map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while(map[i])
+    {
+        j = 0;
+        while(map[i][j])
+        {
+            if(map[i][j] == '\t' || map[i][j] == ' ')
+                map[i][j] = '1';
+            j++;
+        }
+        i++;
+    }
+}
 int parsing(t_data *data)
 {
     // if(verify_first_last_walls(data->map->map))
@@ -232,8 +276,11 @@ int parsing(t_data *data)
         return (1);
     // if (verify_map(data->map->map))
     //     return 1;
-    // if (check_door(data->map->map))
-    //     return 1;
-    data->map_height = get_height_line(data->map->map);
+    funn(data->map->map);
+    for(int i = 0; data->map->map[i]; i++)
+    {
+        printf("%s", data->map->map[i]);
+    }
+    // exit(1);
     return (0);
 }

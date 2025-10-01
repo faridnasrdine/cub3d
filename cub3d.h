@@ -46,9 +46,15 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	double x;
-	double y;
-	int dir;
+	double x;         
+    double y;
+    double dir_x;     
+    double dir_y;
+    double plane_x;   
+    double plane_y;
+    char orientation;
+    double move_speed;
+    double rot_speed;
 } t_player;
 
 typedef struct s_data
@@ -59,6 +65,7 @@ typedef struct s_data
     char    *addr;
     int     pixel;
     int     len;
+	char 	*game;
     int     endian;
     int     img_width;
     int     img_height;

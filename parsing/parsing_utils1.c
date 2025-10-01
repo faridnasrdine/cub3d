@@ -5,9 +5,9 @@ static int get_line_len(char *line)
     int len = 0;
     int i = 0;
     
-    while(line[i])
+    while(line[i] != '\0' && line[i] != '\n')
     {
-        if(line[i] != ' ' && line[i] != '\t' && line[i] != '\r')
+        if(line[i] != ' ' && line[i] != '\t')
             len = i + 1;
         i++;
     }
