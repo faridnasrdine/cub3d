@@ -13,7 +13,7 @@ LIBFT = libft/libft.a
 ${NAME}: ${OBJS}
 	cd libft && ${MAKE}
 	cd minilibx-linux && ${MAKE}
-	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${LDFLAGS} -o ${NAME}
+	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${LDFLAGS} -lm -o ${NAME}
 
 all: ${NAME}
 

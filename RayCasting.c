@@ -181,12 +181,99 @@ int key_move(int keycode, t_data *data)
     get_game(data);
     
     return (0);
+
 }
-void	set_mlx(t_data *data)
+void init_ray(t_data *g)
 {
-	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, data->map_length * 32, data->map_height * 32, "CUB3D 42");
-	get_game(data);
-	mlx_hook(data->win, 2, 1L << 0, key_move, data);
-	mlx_loop(data->mlx);
+    g->ray.angle = 0;
+    if (g->player->orientation == 'S')
+        g->ray.angle = 90;
+    else if (g->player->orientation == 'W')
+        g->ray.angle = 180;
+    else if (g->player->orientation == 'N')
+        g->ray.angle = 270;
+
+    g->ray.hfov = 30;
+	g->ray.incre_angle = 2 * g->ray.hfov / (g->map_length * 32);
+    g->ray.precision = 50;
+    g->ray.lim = 11;
 }
+float degree_to_radians(float degree)
+{
+    return (degree * M_PI / 180.0);
+}
+float distance_to_wall(t_data *g, float ray_angle)
+{
+    float d;
+    float x = g->player->x + 0.5;
+    float y = g->player->y + 0.5;
+    float ray_cos = cos(degree_to_radians(ray_angle)) / g->ray.precision;
+    float ray_sin = sin(degree_to_radians(ray_angle)) / g->ray.precision;
+
+    while (g->map->map[(int)y][(int)x] != '1' &&
+           sqrtf(powf(x - g->player->x - 0.5, 2) + powf(y - g->player->y - 0.5, 2)) < g->ray.lim)
+    {
+        x += ray_cos;
+        y += ray_sin;
+    }
+
+    d = sqrtf(powf(x - g->player->x - 0.5, 2) + powf(y - g->player->y - 0.5, 2));
+    return (d * cos(degree_to_radians(ray_angle - g->ray.angle)));
+	
+}
+void cub_draw(t_data *g, int ray_count, float dist)
+{
+    int line_height;
+    int start;
+    int end;
+    int color = 0xFFFFFF;
+
+    if (dist == 0)
+        dist = 0.1;
+
+    int screen_height = g->map_height * 32;
+	line_height = (int)(screen_height / dist);
+	start = screen_height / 2 - line_height / 2;
+	end = screen_height / 2 + line_height / 2;
+
+
+    for (int y = start; y < end; y++)
+        my_mlx_pixel_put(g, ray_count, y, color);
+}
+void cub_raycast(t_data *g)
+{
+    float ray_angle = g->ray.angle - g->ray.hfov;
+    int screen_width = g->map_length * 32;
+    int ray_count = 0;
+    float dist;
+
+    while (ray_count < screen_width)
+    {
+        dist = distance_to_wall(g, ray_angle);
+        cub_draw(g, ray_count, dist);
+        ray_angle += g->ray.incre_angle;
+        ray_count++;
+    }
+}
+
+
+void set_mlx(t_data *data)
+{
+    data->mlx = mlx_init();
+    data->win = mlx_new_window(data->mlx, data->map_length * 32, data->map_height * 32, "CUB3D 42");
+
+    init_ray(data);
+    cub_raycast(data);
+
+    mlx_hook(data->win, 2, 1L << 0, key_move, data);
+    mlx_loop(data->mlx);
+}
+
+// void	set_mlx(t_data *data)
+// {
+// 	data->mlx = mlx_init();
+// 	data->win = mlx_new_window(data->mlx, data->map_length * 32, data->map_height * 32, "CUB3D 42");
+// 	get_game(data);
+// 	mlx_hook(data->win, 2, 1L << 0, key_move, data);
+// 	mlx_loop(data->mlx);
+// }

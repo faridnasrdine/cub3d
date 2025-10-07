@@ -14,8 +14,18 @@
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
 
-# define L  900
-# define H  600
+
+
+typedef struct s_ray
+{
+    float angle;
+    float hfov;
+    float incre_angle;
+    float precision;
+    float lim;
+    float cos;
+    float sin;
+} t_ray;
 
 typedef struct s_texture
 {
@@ -73,6 +83,7 @@ typedef struct s_data
     int     map_height; 
 	t_map *map;
 	t_player *player;
+	t_ray ray;
 	int x;
 	int y;
 } t_data;
