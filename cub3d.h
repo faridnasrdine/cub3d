@@ -14,8 +14,7 @@
 # include "libft/libft.h"
 # include "minilibx-linux/mlx.h"
 
-# define L  900
-# define H  600
+
 
 typedef struct s_texture
 {
@@ -32,10 +31,6 @@ typedef struct s_map
 	t_texture *south;
 	t_texture *west;
 	t_texture *east;
-	t_texture *door;
-	t_texture *door_1;
-	t_texture *door_2;
-	t_texture *door_3;
 	int fd;
 	int celling;
 	int floor;
@@ -57,6 +52,18 @@ typedef struct s_player
     double rot_speed;
 } t_player;
 
+typedef struct s_ray
+{
+    float angle;
+    float hfov;
+    float incre_angle;
+    float precision;
+    float lim;
+    float cos;
+    float sin;
+	float max_depth;
+} t_ray;
+
 typedef struct s_data
 {
 	void    *mlx;
@@ -68,11 +75,11 @@ typedef struct s_data
 	char 	*game;
     int     endian;
     int     img_width;
-    int     img_height;
-    int     map_length; 
+    int     map_length;
     int     map_height; 
 	t_map *map;
 	t_player *player;
+	t_ray	ray;
 	int x;
 	int y;
 } t_data;
@@ -84,6 +91,8 @@ int 	ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	parse_rgb_string(char *str);
 int 	get_height_line(char **map);
 void	set_mlx(t_data *data);
+void	render_3d_view(t_data *data);
+void cub_raycast(t_data *g);
 // int	exit_game(t_data *data);
 
 #endif

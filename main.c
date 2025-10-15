@@ -263,14 +263,9 @@ int init_data(t_data *data)
     data->map->south = malloc(sizeof(t_texture));
     data->map->west = malloc(sizeof(t_texture));
     data->map->east = malloc(sizeof(t_texture));
-    data->map->door = malloc(sizeof(t_texture));
-    data->map->door_1 = malloc(sizeof(t_texture));
-    data->map->door_2 = malloc(sizeof(t_texture));
-    data->map->door_3 = malloc(sizeof(t_texture));
     
     if (!data->map->north || !data->map->south || !data->map->west || 
-        !data->map->east || !data->map->door || !data->map->door_1 || 
-        !data->map->door_2 || !data->map->door_3)
+        !data->map->east)
     {
        //cleanup function!!!!!!!!!!!!!!!
         return -1;

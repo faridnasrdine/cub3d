@@ -139,11 +139,10 @@ int init_location_player(t_data *data)
             if(data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S' || 
                data->map->map[i][j] == 'E' || data->map->map[i][j] == 'W')
             {
-                data->player->x = (double)j + 0.5;  // Center of the cell
+                data->player->x = (double)j + 0.5;
                 data->player->y = (double)i + 0.5;
                 data->player->orientation = data->map->map[i][j];
                 
-                // Set direction vectors based on orientation
                 if (data->map->map[i][j] == 'N')
                 {
                     data->player->dir_x = 0;
@@ -165,7 +164,7 @@ int init_location_player(t_data *data)
                     data->player->dir_y = 0;
                 }
                 
-                data->player->move_speed = 0.1;
+                data->player->move_speed = 0.5;
                 data->player->rot_speed = 0.05;
                 
                 data->map_length = get_big_line(data->map->map);

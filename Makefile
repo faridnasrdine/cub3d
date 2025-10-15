@@ -1,5 +1,5 @@
 SRCS = main.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
-	   parsing/parsing.c  parsing/parsing_utils2.c parsing/parsing_utils1.c RayCasting.c
+	   parsing/parsing.c  parsing/parsing_utils2.c parsing/parsing_utils1.c RayCasting.c draw_maping.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -13,7 +13,7 @@ LIBFT = libft/libft.a
 ${NAME}: ${OBJS}
 	cd libft && ${MAKE}
 	cd minilibx-linux && ${MAKE}
-	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${LDFLAGS} -o ${NAME}
+	${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${LDFLAGS} -lm -o ${NAME}
 
 all: ${NAME}
 
