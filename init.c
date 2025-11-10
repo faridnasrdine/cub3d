@@ -47,8 +47,8 @@ void  draw_map(t_data *data)
     j = 0;
     while (j < data->map_width)
     {
-      int x = i * 64;
-      int y = j * 64;
+      int x = i * data->tile_size;
+      int y = j * data->tile_size;
 
       if (data->map->map[i][j] == '1')
         draw_square(data, y, x, data->tile_size, 0xFF0000);
@@ -170,9 +170,14 @@ void draw_player(t_data *data)
 void init_mlx(t_data *data)
 {
   data->mlx = mlx_init();
-  int size = data->tile_size = 64;
-  int window_width = data->map_width * size;
-  int window_height = data->map_height * size;
+  int size_h = WIN_WIDTH / ft_strlen(data->map->map[0]);
+  int size_w = WIN_HEIGHT / 10;
+
+  data->tile_size = (size_h < size_w) ? size_h : size_w;
+  data->tile_size += 25;
+
+  int window_width = data->map_width * data->tile_size;
+  int window_height = data->map_height * data->tile_size;
   data->win = mlx_new_window(data->mlx, window_width, window_height, "Hicham el fatihi");
   data->img = mlx_new_image(data->mlx, window_width, window_height);
   data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixels, &data->line_length, &data->endian);
