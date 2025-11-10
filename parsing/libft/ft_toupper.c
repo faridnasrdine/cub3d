@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 11:30:54 by nafarid           #+#    #+#             */
-/*   Updated: 2025/10/28 23:06:38 by nafarid          ###   ########.fr       */
+/*   Created: 2024/10/23 15:58:00 by nafarid           #+#    #+#             */
+/*   Updated: 2024/10/25 21:08:18 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlen(const char *c)
+int	ft_toupper(int c)
 {
-	int	i;
-
-	i = 0;
-	while (c[i])
-		i++;
-	return (i);
+	if (c >= 97 && c <= 122)
+	{
+		c = c - 32;
+	}
+	return (c);
 }
-// int main()
+// int	main(void)
 // {
-//     char s[] = "hello";
-//     printf("%d\n", ft_strlen(s));
+// 	int	c;
+
+// 	c = 'j';
+// 	printf("%d", ft_toupper(c));
 // }

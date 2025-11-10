@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nafarid <nafarid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 11:30:54 by nafarid           #+#    #+#             */
-/*   Updated: 2025/10/28 23:06:38 by nafarid          ###   ########.fr       */
+/*   Created: 2024/10/23 16:13:39 by nafarid           #+#    #+#             */
+/*   Updated: 2024/10/30 14:28:32 by nafarid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlen(const char *c)
+int	ft_tolower(int c)
 {
-	int	i;
-
-	i = 0;
-	while (c[i])
-		i++;
-	return (i);
+	if (c >= 65 && c <= 90)
+	{
+		c = c + 32;
+	}
+	return (c);
 }
-// int main()
+// int	main(void)
 // {
-//     char s[] = "hello";
-//     printf("%d\n", ft_strlen(s));
+// 	int c = 'z';
+// 	printf("%d", ft_tolower(c));
 // }
