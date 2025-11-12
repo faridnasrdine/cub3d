@@ -98,16 +98,16 @@ int key_press(int keycode, t_data *data)
     data->player.angle += ROT_SPEED;
     if (data->player.angle >= 2 * M_PI)
       data->player.angle -= 2 * M_PI;
-    render_frame(data);
-    return (0);
+    // render_frame(data);
+    // return (0);
   }
   else if (keycode == 'a' || keycode == 65361)  // A or Left arrow - rotate left
   {
     data->player.angle -= ROT_SPEED;
     if (data->player.angle < 0)
       data->player.angle += 2 * M_PI;
-    render_frame(data);
-    return (0);
+    // render_frame(data);
+    // return (0);
   }
 
   // === FORWARD/BACKWARD (w/s or k/j) ===
@@ -147,7 +147,6 @@ int key_press(int keycode, t_data *data)
     data->player.y = new_y;
     render_frame(data);
   }
-
   return (0);
 }
 
