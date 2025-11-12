@@ -29,18 +29,3 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
   }
 }
 
-// Draw direction line showing where player is facing
-void draw_direction_line(t_data *data)
-{
-  int player_screen_x = (int)(data->player.x * data->tile_size);
-  int player_screen_y = (int)(data->player.y * data->tile_size);
-
-  // Calculate end point of direction line
-  
-  // int line_length = data->tile_size;  // Length of direction indicator
-  int end_x = player_screen_x + (int)(cos(data->player.angle) * 60);
-  int end_y = player_screen_y + (int)(sin(data->player.angle) * 60);
-
-  // Draw the direction line
-  draw_line(data, player_screen_x, player_screen_y, end_x, end_y, 0x00FF00);
-}
