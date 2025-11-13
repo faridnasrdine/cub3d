@@ -24,18 +24,33 @@ void draw_square(t_data *data, int x, int y, int size, int color)
   }
 }
 
+void  set_direction(t_data *data, int x, int y)
+{
+  char c = data->map->map[x][y];
+  if (c == 'N')
+    data->player.angle = 3 * M_PI / 2;  // North = up = -Y direction
+  else if (c == 'S')
+    data->player.angle = M_PI / 2;      // South = down = +Y direction
+  else if (c == 'E')
+    data->player.angle = 0;             // East = right = +X direction
+  else if (c == 'W')
+  {
+    data->player.angle = M_PI; 
+  }
+}
+
 void  draw_map(t_data *data)
 {
   int i;
   int j;
 
   i = 0;
-  while (i <  data->map_width * data->tile_size)
+  while (i < data->map_height * data->tile_size)
   {
     j = 0;
-    while (j < data->map_height * data->tile_size)
+    while (j < data->map_width * data->tile_size)
     {
-      my_mlx_pixel_put(data, i, j, 0x000000);
+      my_mlx_pixel_put(data, j, i, 0x000000);
       j++;
     }
     i++;
@@ -52,9 +67,6 @@ void  draw_map(t_data *data)
 
       if (data->map->map[i][j] == '1')
         draw_square(data, y, x, data->tile_size, 0xFF0000);
-      // else {
-      //   draw_square(data, x, y, data->tile_size, 0x00FF00);
-      // }
 
       for (int k = 0; k < data->tile_size; k++)
       {
@@ -98,16 +110,16 @@ int key_press(int keycode, t_data *data)
     data->player.angle += ROT_SPEED;
     if (data->player.angle >= 2 * M_PI)
       data->player.angle -= 2 * M_PI;
-    // render_frame(data);
-    // return (0);
+    render_frame(data);
+    return (0);
   }
   else if (keycode == 'a' || keycode == 65361)  // A or Left arrow - rotate left
   {
     data->player.angle -= ROT_SPEED;
     if (data->player.angle < 0)
       data->player.angle += 2 * M_PI;
-    // render_frame(data);
-    // return (0);
+    render_frame(data);
+    return (0);
   }
 
   // === FORWARD/BACKWARD (w/s or k/j) ===
@@ -172,6 +184,7 @@ void init_mlx(t_data *data)
   int size_h = WIN_WIDTH / ft_strlen(data->map->map[0]);
   int size_w = WIN_HEIGHT / 10;
 
+  init_location(data);
   data->tile_size = (size_h < size_w) ? size_h : size_w;
   data->tile_size += 25;
 

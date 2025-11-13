@@ -32,7 +32,29 @@ void clear_list(t_cub3d **list)
   current = NULL;
 }
 
+void  init_location(t_data *data)
+{
+  int i;
+  int j;
+  char c;
 
+  i = 0;
+  while (i < data->map_height)
+  {
+    j = 0;
+    while (j < data->map_width)
+    {
+      c = data->map->map[i][j];
+      if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+      {
+        set_direction(data, i, j);
+        break;
+      }
+      j++;
+    }
+    i++;
+  }
+}
 
 int main(int ac, char **av)
 {
@@ -56,7 +78,6 @@ int main(int ac, char **av)
     free_all(data);
     return EXIT_FAILURE;
   }
-
   init_mlx(data);
   render_frame(data);
   mlx_hook(data->win, 2, 1L<<0, key_press, data);

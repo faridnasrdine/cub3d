@@ -19,8 +19,9 @@ void cast_ray_to_wall(t_data *data, double ray_angle, int color)
   double step = 0.01;  // Smaller = more accurate but slower
   
   // Cast the ray until it hits a wall
-  int max_steps = 1000;  // Prevent infinite loops
-  for (int i = 0; i < max_steps; i++)
+  // int max_steps = 1000;  // Prevent infinite loops
+  // for (int i = 0; i < max_steps; i++)
+  while(1)
   {
     // Move ray forward
     ray_x += ray_dir_x * step;
@@ -44,16 +45,22 @@ void cast_ray_to_wall(t_data *data, double ray_angle, int color)
 
 void draw_fov_with_walls(t_data *data)
 {
+  printf("var = %f\n", data->player.angle);
   double start_angle = data->player.angle - (FOV / 2);
   double angle_step = FOV / NUM_RAYS;
-  
+  int color;
+
   for (int i = 0; i < NUM_RAYS; i++)
   {
     double ray_angle = start_angle + (i * angle_step);
     
     // Different colors for better visualization
-    int color = (i == NUM_RAYS / 2) ? 0xF0FFFF : 0x004400;  // Center ray brighter
-    
+    if (i <= NUM_RAYS / 2) {
+      color = 0x004400;
+    }
+    else {
+      color = 0xF0FFFF;
+    }
     cast_ray_to_wall(data, ray_angle, color);
   }
 }

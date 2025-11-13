@@ -10,9 +10,9 @@ void int_fill(t_data *data, char *av)
     {
         return;
     }
-   
     data->map->fd = fd;
 }
+
 int init_data(t_data *data)
 {
     data->map = malloc(sizeof(t_map));
@@ -35,7 +35,6 @@ int init_data(t_data *data)
     data->map->fd = -1;
     data->player.x = 0.0;
     data->player.y = 0.0;
-    // data->player->dir = 0;
     
     return 0;
 }

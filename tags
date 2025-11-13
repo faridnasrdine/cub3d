@@ -346,7 +346,6 @@ depth	minilibx-linux/mlx_int.h	/^	int			depth;$/;"	m	struct:s_xvar	typeref:typen
 display	minilibx-linux/mlx_int.h	/^	Display		*display;$/;"	m	struct:s_xvar	typeref:typename:Display *
 do_configure	minilibx-linux/Makefile	/^do_configure	:$/;"	t
 do_flush	minilibx-linux/mlx_int.h	/^	int			do_flush;$/;"	m	struct:s_xvar	typeref:typename:int
-draw_direction_line	draw_layers.c	/^void draw_direction_line(t_data *data)$/;"	f	typeref:typename:void
 draw_direction_line	parsing/draw_layers.c	/^void draw_direction_line(t_data *data)$/;"	f	typeref:typename:void
 draw_fov_with_walls	draw_rayes.c	/^void draw_fov_with_walls(t_data *data)$/;"	f	typeref:typename:void
 draw_fov_with_walls	parsing/draw_rayes.c	/^void draw_fov_with_walls(t_data *data)$/;"	f	typeref:typename:void
@@ -507,6 +506,7 @@ incre_angle	cub3d.h	/^    float incre_angle;$/;"	m	struct:s_ray	typeref:typename
 incre_angle	parsing/cub3d.h	/^    float incre_angle;$/;"	m	struct:s_ray	typeref:typename:float
 init_data	get_maps/init_data.c	/^int init_data(t_data *data)$/;"	f	typeref:typename:int
 init_data	parsing/get_maps/init_data.c	/^int init_data(t_data *data)$/;"	f	typeref:typename:int
+init_location	main.c	/^void  init_location(t_data *data)$/;"	f	typeref:typename:void
 init_location_player	parsing/parsing_utils1.c	/^int init_location_player(t_data *data)$/;"	f	typeref:typename:int
 init_mlx	init.c	/^void init_mlx(t_data *data)$/;"	f	typeref:typename:void
 init_mlx	parsing/init.c	/^void init_mlx(t_data *data)$/;"	f	typeref:typename:void
@@ -698,6 +698,7 @@ s_xpm_col	minilibx-linux/mlx_int.h	/^typedef	struct	s_xpm_col$/;"	s
 s_xvar	minilibx-linux/mlx_int.h	/^typedef struct	s_xvar$/;"	s
 saved_mode	minilibx-linux/mlx_ext_randr.c	/^RRMode	saved_mode = 0;$/;"	v	typeref:typename:RRMode
 screen	minilibx-linux/mlx_int.h	/^	int			screen;$/;"	m	struct:s_xvar	typeref:typename:int
+set_direction	init.c	/^void  set_direction(t_data *data, int x, int y)$/;"	f	typeref:typename:void
 shm	minilibx-linux/mlx_int.h	/^	XShmSegmentInfo	shm;$/;"	m	struct:s_img	typeref:typename:XShmSegmentInfo
 shm_att_pb	minilibx-linux/mlx_new_image.c	/^int	shm_att_pb(Display *d,XErrorEvent *ev)$/;"	f	typeref:typename:int
 show	minilibx-linux/Makefile.mk	/^show:$/;"	t

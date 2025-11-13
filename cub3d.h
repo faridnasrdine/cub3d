@@ -2,8 +2,8 @@
 #define CUB3D_H
 
 #define TILE_SIZE 32
-#define WIN_WIDTH 800
-#define WIN_HEIGHT 800
+#define WIN_WIDTH 1000
+#define WIN_HEIGHT 720
 #define ROT_SPEED 0.3  // Rotation speed in radians
 #define MOVE_SPEED 0.2  // Movement speed
 #define FOV (M_PI / 3)  // 60 degrees field of view
@@ -90,6 +90,8 @@ typedef struct s_data
 
 void init_mlx(t_data *data);
 
+void  set_direction(t_data *data, int x, int y);
+void  init_location(t_data *data);
 char **creat_map();
 void  render_frame(t_data *data);
 void  my_mlx_pixel_put(t_data *data, int x, int y, int color);
