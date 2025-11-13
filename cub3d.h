@@ -114,14 +114,16 @@ void  add_back(t_cub3d **list, t_cub3d *new);
 t_cub3d *new_node(char *content);
 //parsing
 
-int check_player(char **map);
-int init_location_player(t_data *data);
-int	verify_first_last_walls(char **map);
-int verify_line(char **map);
+int	is_player(char c);
+int	is_wall_line(const char *s);
+int	line_first_visible(const char *s);
+int	line_last_visible(const char *s);
+void	normalize_spaces(char **map);
 int parsing(t_data *data);
-int get_height_line(char **map);
-int get_big_line(char **map);
+int	scan_player_and_dims(char **map, t_data *data, int *out_h, int *out_w);
 char	*ft_strndup(char *s, int n);
+int	verify_left_right_walls(char **map);
+int	verify_top_bottom(char **map);
 
 //get_map
 int get_map(t_data *data, char **av);

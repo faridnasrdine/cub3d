@@ -1,78 +1,79 @@
 #include "../cub3d.h"
 
-int check_player(char **map)
-{
-    int i;
-    int j;
-    int player_count;
-    char player[4];
 
-    i = 0;
-    player_count = 0;
-    player[0] = 'N';
-    player[1] = 'S';
-    player[2] = 'E';
-    player[3] = 'W';
-    while(map[i])
-    {
-        j = 0;
-        while(map[i][j])
-        {
-            if(ft_strchr(player, map[i][j]))
-                player_count++;
-            j++;
-        }
-        if(player_count > 1)
-            return (1);
-        i++;
-    }
-    if(player_count == 0)
-        return (1);
-    return (0);
+int	verify_top_bottom(char **map)
+{
+	int	top;
+	int	bot;
+
+	top = 0;
+	while (map[top] && line_last_visible(map[top]) < 0)
+		top++;
+	if (!map[top])
+		return (1);
+	bot = top;
+	while (map[bot])
+		bot++;
+	bot--;
+	while (bot > top && line_last_visible(map[bot]) < 0)
+		bot--;
+	if (!is_wall_line(map[top]) || !is_wall_line(map[bot]))
+		return (1);
+	return (0);
 }
 
-
-int init_location_player(t_data *data)
+int	verify_left_right_walls(char **map)
 {
-    int i;
-    int j;
+	int	i;
+	int	l;
+	int	r;
 
-    i = 0;
-    while(data->map->map[i])
-    {
-        j = 0;
-        while(data->map->map[i][j])
-        {
-            if(data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S' || 
-               data->map->map[i][j] == 'E' || data->map->map[i][j] == 'W')
-            {
-                data->player.x = (double)j + 0.5;
-                data->player.y = (double)i + 0.5;
-        
-                
-                data->map_width = get_big_line(data->map->map);
-                data->map_height = get_height_line(data->map->map);
-                return (0);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (1);
+	i = 0;
+	while (map[i])
+	{
+		l = line_first_visible(map[i]);
+		r = line_last_visible(map[i]);
+		if (r >= 0)
+		{
+			if (map[i][l] != '1' || map[i][r] != '1')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-static int get_line_len(char *line)
+int	scan_player_and_dims(char **map, t_data *data, int *out_h, int *out_w)
 {
-    int len = 0;
-    int i = 0;
-    
-    while(line[i] != '\0' && line[i] != '\n')
-    {
-        if(line[i] != ' ' && line[i] != '\t')
-            len = i + 1;
-        i++;
-    }
-    return (len);
+	int	i;
+	int	j;
+	int	pc;
+	int	w;
+
+	i = 0;
+	pc = 0;
+	*out_h = 0;
+	*out_w = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j] && map[i][j] != '\n')
+		{
+			if (is_player(map[i][j]))
+			{
+				data->player.x = (double)j + 0.5;
+				data->player.y = (double)i + 0.5;
+				pc++;
+			}
+			j++;
+		}
+		w = line_last_visible(map[i]) + 1;
+		if (w > *out_w)
+			*out_w = w;
+		(*out_h)++;
+		i++;
+	}
+	return (pc != 1);
 }
 char	*ft_strndup(char *s, int n)
 {
@@ -94,34 +95,7 @@ char	*ft_strndup(char *s, int n)
 	ptr[i] = '\0';
 	return (ptr);
 }
-int get_big_line(char **map)
-{
-    int max = 0;
-    int i = 0;
-    int len;
-    
-    if (!map)
-        return (0);
-        
-    while(map[i])
-    {
-        len = get_line_len(map[i]);
-        if(len > max)
-            max = len;
-        i++;
-    }
-    return (max);
-}
 
-int get_height_line(char **map)
-{
-    int map_height;
-
-    map_height = 0;
-    while (map[map_height])
-        map_height++;
-    return map_height;
-}
 
 
 
